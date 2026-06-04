@@ -1,0 +1,1076 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Ascension Wharf: Operations Manual</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+  :root {
+    --black:#0A0A0F; --navy:#0F1728; --navy-mid:#1A2744;
+    --gold:#C9A84C; --gold-lt:#F0C96B;
+    --white:#FFFFFF; --off-white:#F8F9FA;
+    --gray-100:#F3F4F6; --gray-200:#E5E7EB;
+    --gray-400:#9CA3AF; --gray-600:#4B5563; --gray-800:#1F2937;
+    --green:#059669; --green-lt:#D1FAE5;
+    --amber:#D97706; --amber-lt:#FEF3C7;
+    --red:#DC2626; --red-lt:#FEE2E2;
+    --blue:#2563EB; --blue-lt:#DBEAFE;
+    --purple:#7C3AED; --purple-lt:#EDE9FE;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{font-family:'Inter',-apple-system,sans-serif;background:var(--white);color:var(--gray-800);font-size:14px;line-height:1.7;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+
+  /* COVER */
+  .cover{background:var(--black);min-height:100vh;display:flex;flex-direction:column;justify-content:space-between;padding:72px 80px;page-break-after:always;position:relative;overflow:hidden;}
+  .cover::before{content:'';position:absolute;top:-200px;right:-200px;width:600px;height:600px;border-radius:50%;background:radial-gradient(circle,rgba(201,168,76,0.12) 0%,transparent 70%);pointer-events:none;}
+  .cover::after{content:'';position:absolute;bottom:-100px;left:-100px;width:400px;height:400px;border-radius:50%;background:radial-gradient(circle,rgba(37,99,235,0.08) 0%,transparent 70%);pointer-events:none;}
+  .cover-top{display:flex;justify-content:space-between;align-items:flex-start;}
+  .brand-mark .name{font-size:18px;font-weight:700;color:var(--white);letter-spacing:0.05em;text-transform:uppercase;}
+  .brand-mark .sub{font-size:11px;font-weight:400;color:var(--gold);letter-spacing:0.12em;text-transform:uppercase;margin-top:4px;}
+  .doc-tag{background:rgba(201,168,76,0.15);border:1px solid rgba(201,168,76,0.3);color:var(--gold-lt);font-size:10px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;padding:6px 14px;border-radius:4px;}
+  .cover-mid{flex:1;display:flex;flex-direction:column;justify-content:center;padding:80px 0 60px;}
+  .cover-eyebrow{font-size:11px;font-weight:600;letter-spacing:0.2em;text-transform:uppercase;color:var(--gold);margin-bottom:24px;}
+  .cover-title{font-size:52px;font-weight:800;color:var(--white);line-height:1.1;letter-spacing:-0.02em;max-width:640px;}
+  .cover-title span{color:var(--gold);}
+  .cover-desc{margin-top:28px;font-size:16px;color:rgba(255,255,255,0.55);max-width:520px;line-height:1.7;}
+  .cover-stats{display:flex;gap:48px;margin-top:56px;}
+  .cover-stat-num{font-size:28px;font-weight:800;color:var(--white);}
+  .cover-stat-lbl{font-size:11px;font-weight:500;color:var(--gray-400);text-transform:uppercase;letter-spacing:0.1em;margin-top:4px;}
+  .cover-divider{width:100%;height:1px;background:linear-gradient(90deg,rgba(255,255,255,0.15) 0%,transparent 100%);margin:0 0 32px;}
+  .cover-bottom{display:flex;justify-content:space-between;align-items:flex-end;}
+  .cover-meta{display:flex;gap:40px;}
+  .cover-meta-item label{display:block;font-size:10px;font-weight:600;color:var(--gray-400);text-transform:uppercase;letter-spacing:0.12em;margin-bottom:4px;}
+  .cover-meta-item span{font-size:13px;font-weight:500;color:var(--white);}
+  .confidential-badge{font-size:10px;font-weight:700;letter-spacing:0.15em;text-transform:uppercase;color:rgba(255,255,255,0.25);}
+
+  /* PAGE */
+  .page{max-width:900px;margin:0 auto;padding:64px 80px;page-break-after:always;}
+  .page:last-child{page-break-after:auto;}
+
+  /* SECTION HEADER */
+  .section-header{display:flex;align-items:center;gap:16px;margin-bottom:40px;padding-bottom:20px;border-bottom:2px solid var(--gray-200);}
+  .section-num{width:40px;height:40px;border-radius:8px;background:var(--navy);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800;color:var(--gold);flex-shrink:0;}
+  .section-title{font-size:26px;font-weight:800;color:var(--navy);letter-spacing:-0.02em;}
+  .section-sub{font-size:13px;color:var(--gray-400);font-weight:400;margin-top:2px;}
+
+  /* TOC */
+  .toc-grid{display:flex;flex-direction:column;gap:4px;}
+  .toc-item{display:flex;align-items:center;gap:12px;padding:14px 20px;border-radius:8px;border:1px solid var(--gray-200);}
+  .toc-num{width:28px;height:28px;border-radius:6px;background:var(--navy);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:var(--gold);flex-shrink:0;}
+  .toc-text{flex:1;font-size:14px;font-weight:600;color:var(--gray-800);}
+  .toc-pages{font-size:12px;color:var(--gray-400);font-weight:500;}
+
+  /* CALLOUT */
+  .callout{border-radius:10px;padding:20px 24px;margin:24px 0;border-left:4px solid;}
+  .callout-gold{background:#FFFBEB;border-color:var(--gold);}
+  .callout-blue{background:var(--blue-lt);border-color:var(--blue);}
+  .callout-green{background:var(--green-lt);border-color:var(--green);}
+  .callout-red{background:var(--red-lt);border-color:var(--red);}
+  .callout-purple{background:var(--purple-lt);border-color:var(--purple);}
+  .callout-title{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:8px;}
+  .callout-gold .callout-title{color:var(--amber);}
+  .callout-blue .callout-title{color:var(--blue);}
+  .callout-green .callout-title{color:var(--green);}
+  .callout-red .callout-title{color:var(--red);}
+  .callout-purple .callout-title{color:var(--purple);}
+  .callout p{font-size:13px;color:var(--gray-800);line-height:1.7;}
+
+  /* PHASE CARDS */
+  .phase-card{border:1px solid var(--gray-200);border-radius:12px;overflow:hidden;margin-bottom:24px;}
+  .phase-header{background:var(--navy);padding:18px 24px;display:flex;align-items:center;gap:16px;}
+  .phase-badge{background:rgba(201,168,76,0.2);border:1px solid rgba(201,168,76,0.4);color:var(--gold-lt);font-size:10px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;padding:4px 10px;border-radius:4px;flex-shrink:0;}
+  .phase-name{font-size:16px;font-weight:700;color:var(--white);}
+  .phase-who{margin-left:auto;font-size:11px;font-weight:500;color:rgba(255,255,255,0.5);text-transform:uppercase;letter-spacing:0.08em;}
+  .phase-body{padding:24px;}
+  .phase-step{display:flex;gap:16px;margin-bottom:16px;align-items:flex-start;}
+  .phase-step:last-child{margin-bottom:0;}
+  .step-dot{width:24px;height:24px;border-radius:50%;background:var(--navy);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:var(--gold);flex-shrink:0;margin-top:2px;}
+  .step-title{font-size:13px;font-weight:700;color:var(--navy);margin-bottom:4px;}
+  .step-desc{font-size:13px;color:var(--gray-600);line-height:1.65;}
+
+  /* STATUS BADGES */
+  .status{display:inline-block;padding:3px 10px;border-radius:4px;font-size:11px;font-weight:700;letter-spacing:0.05em;}
+  .status-raw{background:#EDE9FE;color:#6D28D9;}
+  .status-editing{background:var(--amber-lt);color:var(--amber);}
+  .status-review{background:var(--blue-lt);color:var(--blue);}
+  .status-changes{background:var(--red-lt);color:var(--red);}
+  .status-approved{background:var(--green-lt);color:var(--green);}
+  .status-posted{background:#F0FDF4;color:#16A34A;}
+
+  /* SLACK */
+  .slack-msg{background:#F9F9F9;border:1px solid var(--gray-200);border-radius:10px;padding:16px 20px;margin:12px 0;font-family:'Inter',sans-serif;}
+  .slack-header{display:flex;align-items:center;gap:10px;margin-bottom:8px;}
+  .slack-avatar{width:28px;height:28px;border-radius:5px;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800;color:var(--white);flex-shrink:0;}
+  .slack-bot .slack-avatar{background:#4A154B;}
+  .slack-name{font-size:13px;font-weight:700;color:var(--navy);}
+  .slack-time{font-size:11px;color:var(--gray-400);margin-left:6px;}
+  .slack-app-badge{background:#4A154B;color:var(--white);font-size:9px;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;padding:2px 6px;border-radius:3px;margin-left:6px;}
+  .slack-text{font-size:13px;color:var(--gray-800);line-height:1.6;}
+  .slack-text strong{font-weight:700;color:var(--navy);}
+  .slack-link{color:var(--blue);text-decoration:none;font-weight:500;}
+
+  /* RULE CARDS */
+  .rule-card{border:1px solid var(--gray-200);border-radius:10px;overflow:hidden;margin-bottom:20px;}
+  .rule-header{padding:14px 20px;display:flex;align-items:center;gap:14px;}
+  .rule-number{width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800;flex-shrink:0;}
+  .rule-title{font-size:14px;font-weight:700;}
+  .rule-trigger{font-size:12px;margin-left:auto;font-weight:500;}
+  .rule-body{padding:0 20px 18px;font-size:13px;color:var(--gray-600);line-height:1.7;}
+  .rule-r1 .rule-header{background:#FFF7ED;} .rule-r1 .rule-number{background:#FED7AA;color:#C2410C;} .rule-r1 .rule-title{color:#C2410C;} .rule-r1 .rule-trigger{color:#F97316;}
+  .rule-r2 .rule-header{background:var(--blue-lt);} .rule-r2 .rule-number{background:#BFDBFE;color:var(--blue);} .rule-r2 .rule-title{color:var(--blue);} .rule-r2 .rule-trigger{color:#3B82F6;}
+  .rule-r3 .rule-header{background:var(--red-lt);} .rule-r3 .rule-number{background:#FECACA;color:var(--red);} .rule-r3 .rule-title{color:var(--red);} .rule-r3 .rule-trigger{color:#EF4444;}
+  .rule-r4 .rule-header{background:#F0FDF4;} .rule-r4 .rule-number{background:#BBF7D0;color:#15803D;} .rule-r4 .rule-title{color:#15803D;} .rule-r4 .rule-trigger{color:var(--green);}
+  .rule-r5 .rule-header{background:#1F2937;} .rule-r5 .rule-number{background:var(--gold);color:var(--black);} .rule-r5 .rule-title{color:var(--white);} .rule-r5 .rule-trigger{color:var(--gold);} .rule-r5 .rule-body{background:#F9FAFB;}
+
+  /* AGENT CARDS */
+  .agent-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+  .agent-card{border:1px solid var(--gray-200);border-radius:12px;overflow:hidden;}
+  .agent-card-header{padding:16px 20px;}
+  .agent-number{font-size:10px;font-weight:700;letter-spacing:0.15em;text-transform:uppercase;margin-bottom:6px;}
+  .agent-name{font-size:17px;font-weight:800;color:var(--navy);}
+  .agent-trigger{font-size:11px;font-weight:600;color:var(--gray-400);text-transform:uppercase;letter-spacing:0.08em;margin-top:3px;}
+  .agent-body{padding:14px 20px;border-top:1px solid var(--gray-200);}
+  .agent-item{font-size:12.5px;color:var(--gray-600);margin-bottom:6px;padding-left:14px;position:relative;line-height:1.5;}
+  .agent-item::before{content:'>';position:absolute;left:0;color:var(--gold);font-weight:700;}
+  .agent-model{padding:10px 20px;background:var(--gray-100);font-size:11px;font-weight:700;color:var(--navy);border-top:1px solid var(--gray-200);}
+
+  /* STACK GRID */
+  .stack-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;}
+  .stack-card{border:1px solid var(--gray-200);border-radius:12px;overflow:hidden;}
+  .stack-card-header{padding:20px 24px 16px;border-bottom:1px solid var(--gray-200);}
+  .stack-card-logo{font-size:11px;font-weight:700;letter-spacing:0.15em;text-transform:uppercase;margin-bottom:6px;}
+  .stack-card-name{font-size:20px;font-weight:800;color:var(--navy);}
+  .stack-card-role{font-size:12px;color:var(--gray-400);margin-top:2px;}
+  .stack-card-body{padding:16px 24px;}
+  .stack-item{display:flex;align-items:flex-start;gap:10px;font-size:12.5px;color:var(--gray-600);margin-bottom:8px;line-height:1.5;}
+  .stack-item::before{content:'>';color:var(--gold);font-weight:700;flex-shrink:0;}
+  .stack-card-cost{padding:12px 24px;background:var(--gray-100);font-size:13px;font-weight:700;color:var(--navy);border-top:1px solid var(--gray-200);}
+
+  /* TABLES */
+  table{width:100%;border-collapse:collapse;}
+  th{background:var(--navy);color:var(--white);font-size:11px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;padding:12px 16px;text-align:left;}
+  th:first-child{border-radius:8px 0 0 0;} th:last-child{border-radius:0 8px 0 0;}
+  td{padding:12px 16px;font-size:13px;color:var(--gray-700);border-bottom:1px solid var(--gray-200);}
+  tr:nth-child(even) td{background:var(--gray-100);}
+  .total-row td{background:var(--navy) !important;color:var(--white) !important;font-weight:700;font-size:14px;}
+  .total-row td:first-child{border-radius:0 0 0 8px;} .total-row td:last-child{border-radius:0 0 8px 0;}
+
+  /* TIMELINE */
+  .timeline{position:relative;padding-left:32px;}
+  .timeline::before{content:'';position:absolute;left:10px;top:0;bottom:0;width:2px;background:var(--gray-200);}
+  .timeline-item{position:relative;margin-bottom:28px;}
+  .timeline-dot{position:absolute;left:-28px;top:4px;width:18px;height:18px;border-radius:50%;border:3px solid var(--white);display:flex;align-items:center;justify-content:center;font-size:7px;font-weight:900;color:var(--white);}
+  .timeline-week{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.12em;margin-bottom:6px;}
+  .timeline-title{font-size:14px;font-weight:700;color:var(--navy);margin-bottom:4px;}
+  .timeline-desc{font-size:13px;color:var(--gray-600);line-height:1.65;}
+
+  /* FLOW */
+  .flow{display:flex;flex-direction:column;gap:0;border:1px solid var(--gray-200);border-radius:12px;overflow:hidden;}
+  .flow-row{display:flex;align-items:stretch;border-bottom:1px solid var(--gray-200);}
+  .flow-row:last-child{border-bottom:none;}
+  .flow-step-num{width:48px;background:var(--navy);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800;color:var(--gold);flex-shrink:0;}
+  .flow-content{padding:14px 20px;flex:1;}
+  .flow-action{font-size:13px;font-weight:700;color:var(--navy);}
+  .flow-detail{font-size:12px;color:var(--gray-500);margin-top:2px;}
+  .flow-arrow{width:48px;display:flex;align-items:center;justify-content:center;font-size:18px;color:var(--gray-300);flex-shrink:0;}
+
+  /* TEAM */
+  .team-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+  .team-card{border:1px solid var(--gray-200);border-radius:10px;padding:20px;}
+  .team-role{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.12em;margin-bottom:8px;}
+  .team-title{font-size:16px;font-weight:800;color:var(--navy);margin-bottom:4px;}
+  .team-email{font-size:12px;color:var(--blue);margin-bottom:12px;}
+  .team-resp{font-size:12px;color:var(--gray-600);line-height:1.65;}
+  .team-resp li{margin-bottom:4px;padding-left:12px;position:relative;list-style:none;}
+  .team-resp li::before{content:'·';position:absolute;left:0;color:var(--gold);font-weight:900;}
+
+  /* MISC */
+  h3{font-size:16px;font-weight:700;color:var(--navy);margin-bottom:12px;margin-top:28px;}
+  p{margin-bottom:12px;font-size:13px;color:var(--gray-700);line-height:1.7;}
+  hr{border:none;border-top:1px solid var(--gray-200);margin:32px 0;}
+  .mb-4{margin-bottom:4px;} .mb-8{margin-bottom:8px;} .mb-16{margin-bottom:16px;}
+  .mb-24{margin-bottom:24px;} .mb-32{margin-bottom:32px;} .mb-40{margin-bottom:40px;}
+  @media print{body{font-size:12px;}.page{padding:48px 60px;}.cover{padding:56px 60px;}}
+</style>
+</head>
+<body>
+
+<!-- COVER -->
+<div class="cover">
+  <div class="cover-top">
+    <div class="brand-mark">
+      <div class="name">Ascension Wharf</div>
+      <div class="sub">Content Distribution Agency</div>
+    </div>
+    <div class="doc-tag">Confidential, Internal Use Only</div>
+  </div>
+  <div class="cover-mid">
+    <div class="cover-eyebrow">Full Operations Manual, Version 2</div>
+    <h1 class="cover-title">Patrick's<br><span>Content System</span><br>Operations Guide</h1>
+    <p class="cover-desc">The complete playbook for running Patrick's 25-account, 72-post-per-day automated content distribution system. Human workflow, AI pipeline, batch posting schedule, team structure, all 8 agents, and full cost breakdown.</p>
+    <div class="cover-stats">
+      <div><div class="cover-stat-num">25</div><div class="cover-stat-lbl">Total accounts</div></div>
+      <div><div class="cover-stat-num">72</div><div class="cover-stat-lbl">Posts per day</div></div>
+      <div><div class="cover-stat-num">5</div><div class="cover-stat-lbl">Platforms</div></div>
+      <div><div class="cover-stat-num">25M</div><div class="cover-stat-lbl">Views target (60 days)</div></div>
+    </div>
+  </div>
+  <div>
+    <div class="cover-divider"></div>
+    <div class="cover-bottom">
+      <div class="cover-meta">
+        <div class="cover-meta-item"><label>Prepared for</label><span>Pramit</span></div>
+        <div class="cover-meta-item"><label>Prepared by</label><span>Vedant Jadav, Ascension Wharf</span></div>
+        <div class="cover-meta-item"><label>Date</label><span>June 2026</span></div>
+        <div class="cover-meta-item"><label>Contact</label><span>vedant@ascensionwharf.com</span></div>
+      </div>
+      <div class="confidential-badge">Confidential</div>
+    </div>
+  </div>
+</div>
+
+<!-- TOC -->
+<div class="page">
+  <div class="section-header">
+    <div class="section-title">Table of Contents</div>
+  </div>
+  <div class="toc-grid">
+    <div class="toc-item"><div class="toc-num">1</div><div class="toc-text">Account Structure and Strategy</div><div class="toc-pages">25 accounts, main vs secondary, Instagram focus</div></div>
+    <div class="toc-item"><div class="toc-num">2</div><div class="toc-text">System Overview</div><div class="toc-pages">How the full system works from start to finish</div></div>
+    <div class="toc-item"><div class="toc-num">3</div><div class="toc-text">Team Structure</div><div class="toc-pages">Roles, Gmail accounts, Slack channels</div></div>
+    <div class="toc-item"><div class="toc-num">4</div><div class="toc-text">The Human Workflow</div><div class="toc-pages">Phase 1 through 4, raw video to approved</div></div>
+    <div class="toc-item"><div class="toc-num">5</div><div class="toc-text">The AI Pipeline</div><div class="toc-pages">Phase 5, captions, batch posting, analytics</div></div>
+    <div class="toc-item"><div class="toc-num">6</div><div class="toc-text">Batch Posting Schedule</div><div class="toc-pages">5 batches, staggered times, no simultaneous posts</div></div>
+    <div class="toc-item"><div class="toc-num">7</div><div class="toc-text">The Reminder Agent</div><div class="toc-pages">5 rules keeping the human pipeline on track</div></div>
+    <div class="toc-item"><div class="toc-num">8</div><div class="toc-text">All 8 Agents</div><div class="toc-pages">Complete agent registry with roles and schedules</div></div>
+    <div class="toc-item"><div class="toc-num">9</div><div class="toc-text">Technology Stack</div><div class="toc-pages">Claude API + n8n + Zernio explained</div></div>
+    <div class="toc-item"><div class="toc-num">10</div><div class="toc-text">Full Cost Breakdown</div><div class="toc-pages">Every cost, monthly total, annual projection</div></div>
+    <div class="toc-item"><div class="toc-num">11</div><div class="toc-text">Setup Timeline</div><div class="toc-pages">4-week plan from zero to live</div></div>
+    <div class="toc-item"><div class="toc-num">12</div><div class="toc-text">Failure Scenarios</div><div class="toc-pages">What could go wrong and exactly how it is handled</div></div>
+  </div>
+</div>
+
+<!-- SECTION 1: ACCOUNT STRUCTURE -->
+<div class="page">
+  <div class="section-header">
+    <div class="section-num">1</div>
+    <div>
+      <div class="section-title">Account Structure and Strategy</div>
+      <div class="section-sub">25 total accounts across 5 platforms, built around one goal</div>
+    </div>
+  </div>
+
+  <div class="callout callout-gold">
+    <div class="callout-title">The North Star</div>
+    <p>The entire system exists to grow Patrick's Instagram audience. Every other platform, every secondary account, every post, every view feeds back into Instagram growth. Patrick's main Instagram is the destination. Everything else is the engine.</p>
+  </div>
+
+  <h3 style="margin-top:0;">The 25 Accounts at a Glance</h3>
+  <table class="mb-32">
+    <tr><th>Platform</th><th>Main Account</th><th>Secondary Accounts</th><th>Total</th><th>Daily Posts (Auto)</th></tr>
+    <tr>
+      <td><strong>Instagram</strong></td>
+      <td>Patrick's main IG (engagement only + 1-2 reels per week manually)</td>
+      <td>4 secondary accounts, each posts 3 videos/day</td>
+      <td>5</td>
+      <td>12 posts (secondary only)</td>
+    </tr>
+    <tr>
+      <td><strong>YouTube</strong></td>
+      <td>Patrick's main YT channel, posts 3 Shorts/day automatically</td>
+      <td>4 secondary channels, each posts 3 Shorts/day</td>
+      <td>5</td>
+      <td>15 posts</td>
+    </tr>
+    <tr>
+      <td><strong>TikTok</strong></td>
+      <td>Patrick's main TikTok, posts 3 videos/day automatically</td>
+      <td>4 secondary accounts, each posts 3 videos/day</td>
+      <td>5</td>
+      <td>15 posts</td>
+    </tr>
+    <tr>
+      <td><strong>Facebook</strong></td>
+      <td>Patrick's main Facebook Page, posts 3 videos/day automatically</td>
+      <td>4 secondary pages, each posts 3 videos/day</td>
+      <td>5</td>
+      <td>15 posts</td>
+    </tr>
+    <tr>
+      <td><strong>Snapchat</strong></td>
+      <td>New Snapchat account to be created (main), posts 3/day</td>
+      <td>4 secondary accounts, each posts 3 videos/day</td>
+      <td>5</td>
+      <td>15 posts</td>
+    </tr>
+    <tr class="total-row">
+      <td colspan="3"><strong>TOTAL ACROSS ALL PLATFORMS</strong></td>
+      <td><strong>25 accounts</strong></td>
+      <td><strong>72 posts/day</strong></td>
+    </tr>
+  </table>
+
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:32px;">
+    <div style="border:2px solid var(--gold);border-radius:12px;overflow:hidden;">
+      <div style="background:var(--navy);padding:16px 20px;">
+        <div style="font-size:10px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--gold);margin-bottom:4px;">Patrick's Main Instagram</div>
+        <div style="font-size:18px;font-weight:800;color:var(--white);">Engagement and Authority</div>
+      </div>
+      <div style="padding:16px 20px;background:#FFFBEB;">
+        <p style="font-size:13px;color:var(--gray-700);margin:0;">The main Instagram account is NOT part of the automated posting system. It is the destination account. Its job is to look active, credible, and growing organically. The team manages it manually:</p>
+        <br/>
+        <ul style="font-size:13px;color:var(--gray-700);padding-left:16px;line-height:2;">
+          <li>Follow all secondary Instagram accounts</li>
+          <li>Like and comment on top-performing secondary content</li>
+          <li>Repost the best performing secondary reels to Stories</li>
+          <li>Post 1-2 original images per week</li>
+          <li>Post 1-2 original reels per week</li>
+          <li>Respond to comments and DMs to signal activity to the algorithm</li>
+        </ul>
+      </div>
+    </div>
+    <div style="border:1px solid var(--gray-200);border-radius:12px;overflow:hidden;">
+      <div style="background:var(--navy);padding:16px 20px;">
+        <div style="font-size:10px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--gold);margin-bottom:4px;">Distribution Network</div>
+        <div style="font-size:18px;font-weight:800;color:var(--white);">20 Secondary Accounts</div>
+      </div>
+      <div style="padding:16px 20px;background:var(--gray-100);">
+        <p style="font-size:13px;color:var(--gray-700);margin:0;">The 20 secondary accounts (4 per platform) are the volume engine. They post 3 videos per day each, fully automated. Their purpose is reach and discovery. Viewers who engage with secondary content are funneled toward Patrick's main Instagram through cross-links, bios, and mention strategies.</p>
+        <br/>
+        <p style="font-size:13px;color:var(--gray-700);margin:0;">The 4 main accounts on YouTube, TikTok, Facebook, and Snapchat also post automatically at the same volume as secondary accounts.</p>
+      </div>
+    </div>
+  </div>
+
+  <h3>The 25M Views in 60 Days Math</h3>
+  <table>
+    <tr><th>Metric</th><th>Number</th><th>How</th></tr>
+    <tr><td>Total automated posts over 60 days</td><td><strong>4,320 posts</strong></td><td>72 posts/day x 60 days</td></tr>
+    <tr><td>Average views needed per post</td><td><strong>5,787 views</strong></td><td>25,000,000 / 4,320</td></tr>
+    <tr><td>TikTok and IG Reels average for good content</td><td><strong>8,000 to 50,000+</strong></td><td>Industry benchmark for motivational niche</td></tr>
+    <tr><td>Target: if average is 6,000 per post</td><td><strong>25.9M views</strong></td><td>Exceeds target in 60 days</td></tr>
+    <tr><td>Target: if average is 4,500 per post</td><td><strong>19.4M views</strong></td><td>Hits target by day 80 (within 90-day window)</td></tr>
+  </table>
+</div>
+
+<!-- SECTION 2: SYSTEM OVERVIEW -->
+<div class="page">
+  <div class="section-header">
+    <div class="section-num">2</div>
+    <div>
+      <div class="section-title">System Overview</div>
+      <div class="section-sub">The two halves and the complete flow from upload to posted</div>
+    </div>
+  </div>
+
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:32px;">
+    <div style="border:1px solid var(--gray-200);border-radius:12px;overflow:hidden;">
+      <div style="background:var(--navy);padding:16px 20px;">
+        <div style="font-size:10px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--gold);margin-bottom:4px;">Half One</div>
+        <div style="font-size:16px;font-weight:800;color:var(--white);">The Human Loop</div>
+      </div>
+      <div style="padding:16px 20px;font-size:13px;color:var(--gray-600);line-height:1.7;">Raw upload, senior review, editor cut, content approval. This is where quality is controlled. The AI waits for a human to approve before doing anything.</div>
+    </div>
+    <div style="border:1px solid var(--gray-200);border-radius:12px;overflow:hidden;">
+      <div style="background:#0F1728;padding:16px 20px;border-bottom:2px solid var(--gold);">
+        <div style="font-size:10px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--gold);margin-bottom:4px;">Half Two</div>
+        <div style="font-size:16px;font-weight:800;color:var(--white);">The AI Pipeline</div>
+      </div>
+      <div style="padding:16px 20px;font-size:13px;color:var(--gray-600);line-height:1.7;">Captions, vertical conversion, batch posting to 25 accounts, analytics at 1hr and 24hr, high-performer flagging, and weekly strategy. Fully automatic from approval onward.</div>
+    </div>
+  </div>
+
+  <div class="flow">
+    <div class="flow-row"><div class="flow-step-num">1</div><div class="flow-content"><div class="flow-action">Patrick's team uploads raw video to Google Drive</div><div class="flow-detail">n8n detects the file and creates a row in the Google Sheet. Status: Raw, Pending Review.</div></div><div class="flow-arrow">↓</div></div>
+    <div class="flow-row"><div class="flow-step-num">2</div><div class="flow-content"><div class="flow-action">Senior reviewer watches raw video and assigns to an editor</div><div class="flow-detail">Slack alert sent automatically. Editor receives a direct message with the file and deadline.</div></div><div class="flow-arrow">↓</div></div>
+    <div class="flow-row"><div class="flow-step-num">3</div><div class="flow-content"><div class="flow-action">Editor cuts the video and uploads the finished edit</div><div class="flow-detail">Reminder Agent monitors. If behind schedule, Slack ping fires automatically.</div></div><div class="flow-arrow">↓</div></div>
+    <div class="flow-row"><div class="flow-step-num">4</div><div class="flow-content"><div class="flow-action">Content reviewer approves or requests changes</div><div class="flow-detail">If changes: editor notified via Slack with specific notes. If approved: AI pipeline starts instantly.</div></div><div class="flow-arrow">↓</div></div>
+    <div class="flow-row" style="background:#F0FDF4;"><div class="flow-step-num" style="background:var(--green);">5</div><div class="flow-content"><div class="flow-action" style="color:var(--green);">AI PIPELINE STARTS on "Approved" status</div><div class="flow-detail">Claude generates 5 captions. Video converted to 1080x1920 vertical. Zernio posts to all 25 accounts in batches throughout the day.</div></div><div class="flow-arrow">↓</div></div>
+    <div class="flow-row"><div class="flow-step-num">6</div><div class="flow-content"><div class="flow-action">Analytics pulled at 1 hour and 24 hours after each post</div><div class="flow-detail">Zernio returns all platform metrics in one call. Google Sheet updated automatically.</div></div><div class="flow-arrow">↓</div></div>
+    <div class="flow-row"><div class="flow-step-num">7</div><div class="flow-content"><div class="flow-action">High performers flagged. Reports sent. Strategy updated weekly.</div><div class="flow-detail">Reporter Agent updates David every 3 days. CEO Agent reviews goal progress. Strategy Agent briefs Patrick every Monday.</div></div><div class="flow-arrow" style="color:transparent;">-</div></div>
+  </div>
+</div>
+
+<!-- SECTION 3: TEAM STRUCTURE -->
+<div class="page">
+  <div class="section-header">
+    <div class="section-num">3</div>
+    <div>
+      <div class="section-title">Team Structure</div>
+      <div class="section-sub">Roles, Gmail accounts, and Slack communication setup</div>
+    </div>
+  </div>
+
+  <div class="callout callout-blue">
+    <div class="callout-title">Communication Setup</div>
+    <p>Every team member has a dedicated company Gmail and a corresponding Slack account. All automated notifications, reminders, and reports go through Slack. No one needs to check the Google Sheet manually unless they choose to.</p>
+  </div>
+
+  <div class="team-grid mb-32">
+    <div class="team-card">
+      <div class="team-role" style="color:#7C3AED;">Upload Team</div>
+      <div class="team-title">Patrick's Upload Team</div>
+      <div class="team-email">uploads@ascensionwharf.com</div>
+      <ul class="team-resp">
+        <li>Upload 3 raw videos to Google Drive by 10AM daily</li>
+        <li>Follow correct folder and file naming convention</li>
+        <li>Ensure no corrupted files before upload</li>
+      </ul>
+    </div>
+    <div class="team-card">
+      <div class="team-role" style="color:var(--amber);">Senior Review</div>
+      <div class="team-title">Senior Reviewer</div>
+      <div class="team-email">senior@ascensionwharf.com</div>
+      <ul class="team-resp">
+        <li>Watch all raw videos within 1 hour of upload notification</li>
+        <li>Mark each video: approved for editing or skip</li>
+        <li>Assign approved videos to specific editors</li>
+        <li>Final escalation point for any pipeline delays</li>
+      </ul>
+    </div>
+    <div class="team-card">
+      <div class="team-role" style="color:var(--blue);">Editing</div>
+      <div class="team-title">Editor (minimum 2)</div>
+      <div class="team-email">editor1@ascensionwharf.com<br/>editor2@ascensionwharf.com</div>
+      <ul class="team-resp">
+        <li>Cut and edit assigned videos within 4 hours</li>
+        <li>Upload finished edit to Google Drive Edited folder</li>
+        <li>Update Google Sheet status when done</li>
+        <li>Address revision requests within 2 hours</li>
+      </ul>
+    </div>
+    <div class="team-card">
+      <div class="team-role" style="color:var(--green);">Content QA</div>
+      <div class="team-title">Content Reviewer</div>
+      <div class="team-email">reviewer@ascensionwharf.com</div>
+      <ul class="team-resp">
+        <li>Review all edited videos within 2 hours of notification</li>
+        <li>Approve or request changes with specific notes in the sheet</li>
+        <li>Approval triggers the AI pipeline automatically</li>
+        <li>Final quality gate before anything posts publicly</li>
+      </ul>
+    </div>
+    <div class="team-card">
+      <div class="team-role" style="color:#BE185D;">Instagram Manager</div>
+      <div class="team-title">Patrick's IG Account Manager</div>
+      <div class="team-email">instagram@ascensionwharf.com</div>
+      <ul class="team-resp">
+        <li>Manage Patrick's main Instagram daily (engagement, stories)</li>
+        <li>Follow all new secondary Instagram accounts</li>
+        <li>Comment and like the best performing secondary reels</li>
+        <li>Post 1-2 original images and 1-2 reels per week on main account</li>
+        <li>Repost top secondary reels to Patrick's story</li>
+      </ul>
+    </div>
+    <div class="team-card">
+      <div class="team-role" style="color:var(--gold);">Oversight</div>
+      <div class="team-title">David (Reporting Recipient)</div>
+      <div class="team-email">david@ascensionwharf.com</div>
+      <ul class="team-resp">
+        <li>Receives performance report every 3 days from the Reporter Agent</li>
+        <li>Reviews view counts, top performers, platform breakdown</li>
+        <li>Provides feedback to Vedant on strategy adjustments</li>
+        <li>Acts as the performance accountability lead</li>
+      </ul>
+    </div>
+  </div>
+
+  <h3>Slack Channel Setup</h3>
+  <table>
+    <tr><th>Channel</th><th>Purpose</th><th>Members</th></tr>
+    <tr><td><strong>#raw-videos</strong></td><td>Alert every time a raw video is uploaded</td><td>Senior Reviewer, Patrick</td></tr>
+    <tr><td><strong>#content-approved</strong></td><td>Alert when a video is approved and queued for posting</td><td>Full team</td></tr>
+    <tr><td><strong>#high-performers</strong></td><td>Immediate alert when a video hits 2x average views</td><td>Patrick, David, Vedant, Senior Reviewer</td></tr>
+    <tr><td><strong>#team-standup</strong></td><td>Daily 9AM pipeline summary, all pending tasks per person</td><td>Full team</td></tr>
+    <tr><td><strong>#reports</strong></td><td>Reporter Agent posts the 3-day performance brief here</td><td>David, Patrick, Vedant</td></tr>
+    <tr><td><strong>Direct messages</strong></td><td>Personal task reminders and escalation notifications</td><td>Individual team members</td></tr>
+  </table>
+</div>
+
+<!-- SECTION 4: HUMAN WORKFLOW -->
+<div class="page">
+  <div class="section-header">
+    <div class="section-num">4</div>
+    <div>
+      <div class="section-title">The Human Workflow</div>
+      <div class="section-sub">Phase 1 through 4, raw video to AI-ready approved clip</div>
+    </div>
+  </div>
+
+  <div class="phase-card">
+    <div class="phase-header"><div class="phase-badge">Phase 1</div><div class="phase-name">Raw Video Upload</div><div class="phase-who">Who: Upload Team</div></div>
+    <div class="phase-body">
+      <div class="phase-step"><div class="step-dot">1</div><div><div class="step-title">Upload to Google Drive</div><div class="step-desc">Upload the raw video to the designated Google Drive folder. Naming: [Date]_[Subject]_Raw.mp4</div></div></div>
+      <div class="phase-step"><div class="step-dot">2</div><div><div class="step-title">n8n detects the file automatically</div><div class="step-desc">Row created in Google Sheet. Status: <span class="status status-raw">Raw, Pending Review</span>. Timestamp and uploader recorded.</div></div></div>
+      <div class="phase-step"><div class="step-dot">3</div><div><div class="step-title">Slack alert sent to #raw-videos</div><div class="step-desc">Senior reviewer is notified instantly with the video name and a direct Drive link.</div></div></div>
+    </div>
+  </div>
+
+  <div class="phase-card">
+    <div class="phase-header"><div class="phase-badge">Phase 2</div><div class="phase-name">Senior Review</div><div class="phase-who">Who: Senior Reviewer</div></div>
+    <div class="phase-body">
+      <div class="phase-step"><div class="step-dot">1</div><div><div class="step-title">Reviewer watches the raw video</div><div class="step-desc">Decides if it is worth editing based on content quality and strategy fit.</div></div></div>
+      <div class="phase-step"><div class="step-dot">2</div><div><div class="step-title">Updates the Google Sheet</div><div class="step-desc">Approved: Status to <span class="status status-editing">Approved for Editing</span> with editor assigned. Skipped: Status to Skipped.</div></div></div>
+      <div class="phase-step"><div class="step-dot">3</div><div><div class="step-title">Assigned editor receives a Slack DM automatically</div><div class="step-desc">Message includes video name, deadline, and a direct link to the raw file.</div></div></div>
+    </div>
+  </div>
+
+  <div class="phase-card">
+    <div class="phase-header"><div class="phase-badge">Phase 3</div><div class="phase-name">Editing</div><div class="phase-who">Who: Assigned Editor</div></div>
+    <div class="phase-body">
+      <div class="phase-step"><div class="step-dot">1</div><div><div class="step-title">Editor downloads and cuts the video</div><div class="step-desc">Target: 15 to 60 seconds. Clean audio, hook in the first 3 seconds, punchy pacing throughout.</div></div></div>
+      <div class="phase-step"><div class="step-dot">2</div><div><div class="step-title">Uploads finished edit and updates the Sheet</div><div class="step-desc">Status to <span class="status status-review">Edited, Pending Review</span>. Edited file link added to the row.</div></div></div>
+      <div class="phase-step"><div class="step-dot">3</div><div><div class="step-title">Content Reviewer is notified via Slack DM automatically</div><div class="step-desc">Includes editor name, video name, and a direct link to the edited file.</div></div></div>
+    </div>
+  </div>
+
+  <div class="phase-card">
+    <div class="phase-header"><div class="phase-badge">Phase 4</div><div class="phase-name">Content Review</div><div class="phase-who">Who: Content Reviewer</div></div>
+    <div class="phase-body">
+      <div class="phase-step"><div class="step-dot">1</div><div><div class="step-title">Reviewer watches the edited video</div><div class="step-desc">Checks hook, pacing, audio, visual quality, and platform suitability.</div></div></div>
+      <div class="phase-step"><div class="step-dot">2A</div><div><div class="step-title">If approved</div><div class="step-desc">Status to <span class="status status-approved">Approved</span>. AI pipeline starts instantly. No further human input needed.</div></div></div>
+      <div class="phase-step"><div class="step-dot">2B</div><div><div class="step-title">If changes needed</div><div class="step-desc">Status to <span class="status status-changes">Changes Required</span>. Reviewer adds notes. n8n sends a Slack DM to the editor with the exact notes. Editor fixes, re-uploads, status back to Edited Pending Review. Loop repeats.</div></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- SECTION 5: AI PIPELINE -->
+<div class="page">
+  <div class="section-header">
+    <div class="section-num">5</div>
+    <div>
+      <div class="section-title">The AI Pipeline</div>
+      <div class="section-sub">Phase 5, everything from approval to analytics, zero human input</div>
+    </div>
+  </div>
+
+  <div class="callout callout-green">
+    <div class="callout-title">Trigger</div>
+    <p>This entire phase starts the instant a Google Sheet row changes to "Approved". The AI handles captions, vertical conversion, batch posting across all 25 accounts, analytics, flagging, and weekly reporting automatically.</p>
+  </div>
+
+  <div class="phase-card">
+    <div class="phase-header"><div class="phase-badge">Step 1</div><div class="phase-name">Caption Generation via Claude API (30 seconds)</div></div>
+    <div class="phase-body">
+      <p style="font-size:13px;color:var(--gray-600);margin-bottom:16px;">Claude Sonnet 4.6 analyses the video content and writes 5 distinct captions, one per platform. Every caption is specific to what is actually in the video. Never a template.</p>
+      <table>
+        <tr><th>Platform</th><th>Caption Format</th></tr>
+        <tr><td>YouTube Shorts</td><td>SEO title under 60 chars with #Shorts, 3-4 sentence description, 8 tags</td></tr>
+        <tr><td>Instagram Reels</td><td>Hook under 125 chars, 2-3 punchy lines, 10 hashtags in first comment only</td></tr>
+        <tr><td>Facebook</td><td>Conversational 3-5 sentences with 3-5 inline hashtags</td></tr>
+        <tr><td>TikTok</td><td>1-2 lines max, ultra-short, 3-5 trending hashtags, under 150 chars total</td></tr>
+        <tr><td>Snapchat Spotlight</td><td>One line only, under 80 chars, no hashtags, reads like a text message</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <div class="phase-card">
+    <div class="phase-header"><div class="phase-badge">Step 2</div><div class="phase-name">Vertical Conversion (20 seconds on server)</div></div>
+    <div class="phase-body">
+      <p style="font-size:13px;color:var(--gray-600);">The server converts the edited video from its original format to 1080x1920 (9:16 vertical) with a blurred background. Required by all short-form platforms. The original file is kept separately and never overwritten.</p>
+    </div>
+  </div>
+
+  <div class="phase-card">
+    <div class="phase-header"><div class="phase-badge">Step 3</div><div class="phase-name">Batch Posting via Zernio Across All 25 Accounts</div></div>
+    <div class="phase-body">
+      <p style="font-size:13px;color:var(--gray-600);margin-bottom:12px;">n8n schedules Zernio API calls in 5 batches spread throughout the day. No two accounts post at the exact same time. This prevents spam detection and maximises algorithmic reach. Full batch schedule is in Section 6.</p>
+    </div>
+  </div>
+
+  <div class="phase-card">
+    <div class="phase-header"><div class="phase-badge">Step 4</div><div class="phase-name">Analytics at 1 Hour and 24 Hours</div></div>
+    <div class="phase-body">
+      <p style="font-size:13px;color:var(--gray-600);">n8n fires automatically 1 hour after each post and again at 24 hours. Zernio pulls views, saves, shares, and comments from all platforms in one API call. Google Sheet is updated automatically. No separate YouTube, Instagram, or Facebook API calls needed.</p>
+      <p style="font-size:13px;color:var(--gray-600);">If any video's 24-hour views are 2x or more above the week's average, n8n writes a HIGH PERFORMER flag to the Leaderboard tab and sends a Slack alert to #high-performers immediately.</p>
+    </div>
+  </div>
+</div>
+
+<!-- SECTION 6: BATCH POSTING SCHEDULE -->
+<div class="page">
+  <div class="section-header">
+    <div class="section-num">6</div>
+    <div>
+      <div class="section-title">Batch Posting Schedule</div>
+      <div class="section-sub">5 batches, staggered throughout the day, no simultaneous posts</div>
+    </div>
+  </div>
+
+  <div class="callout callout-blue">
+    <div class="callout-title">Why Batches</div>
+    <p>With 5 accounts per platform each posting 3 videos per day, posting all at the same time would look like coordinated spam to platform algorithms. Instead, each batch posts at a different time window. Each batch contains one account from every platform. Batch 1 is always the main accounts. Batches 2 through 5 are the secondary account sets.</p>
+  </div>
+
+  <h3 style="margin-top:0;">Batch Structure</h3>
+  <table class="mb-32">
+    <tr><th>Batch</th><th>Accounts</th><th>Description</th></tr>
+    <tr><td><strong>Batch 1</strong></td><td>YT Main, TikTok Main, FB Main, Snapchat Main (IG Main is manual)</td><td>Patrick's main accounts on all automated platforms</td></tr>
+    <tr><td><strong>Batch 2</strong></td><td>YT Secondary 1, IG Secondary 1, TikTok Secondary 1, FB Secondary 1, Snapchat Secondary 1</td><td>First set of secondary accounts, one per platform</td></tr>
+    <tr><td><strong>Batch 3</strong></td><td>YT Secondary 2, IG Secondary 2, TikTok Secondary 2, FB Secondary 2, Snapchat Secondary 2</td><td>Second set of secondary accounts</td></tr>
+    <tr><td><strong>Batch 4</strong></td><td>YT Secondary 3, IG Secondary 3, TikTok Secondary 3, FB Secondary 3, Snapchat Secondary 3</td><td>Third set of secondary accounts</td></tr>
+    <tr><td><strong>Batch 5</strong></td><td>YT Secondary 4, IG Secondary 4, TikTok Secondary 4, FB Secondary 4, Snapchat Secondary 4</td><td>Fourth set of secondary accounts</td></tr>
+  </table>
+
+  <h3>Daily Posting Time Schedule</h3>
+  <p style="font-size:13px;color:var(--gray-600);margin-bottom:16px;">Each account posts 3 times per day. Posts are spread across optimal windows for each platform. All times are local time.</p>
+
+  <table class="mb-32">
+    <tr><th>Platform</th><th>Batch 1 (Main)</th><th>Batch 2</th><th>Batch 3</th><th>Batch 4</th><th>Batch 5</th></tr>
+    <tr>
+      <td><strong>YouTube Shorts</strong></td>
+      <td>12:00, 3:00, 6:00 PM</td>
+      <td>12:20, 3:20, 6:20 PM</td>
+      <td>12:40, 3:40, 6:40 PM</td>
+      <td>1:00, 4:00, 7:00 PM</td>
+      <td>1:20, 4:20, 7:20 PM</td>
+    </tr>
+    <tr>
+      <td><strong>Instagram Reels</strong></td>
+      <td>Manual (1-2/week only)</td>
+      <td>6:00, 8:00, 10:00 PM</td>
+      <td>6:20, 8:20, 10:20 PM</td>
+      <td>6:40, 8:40, 10:40 PM</td>
+      <td>7:00, 9:00, 11:00 PM</td>
+    </tr>
+    <tr>
+      <td><strong>TikTok</strong></td>
+      <td>6:00, 8:00, 10:00 PM</td>
+      <td>6:15, 8:15, 10:15 PM</td>
+      <td>6:30, 8:30, 10:30 PM</td>
+      <td>6:45, 8:45, 10:45 PM</td>
+      <td>7:00, 9:00, 11:00 PM</td>
+    </tr>
+    <tr>
+      <td><strong>Facebook</strong></td>
+      <td>1:00, 2:30, 4:00 PM</td>
+      <td>1:15, 2:45, 4:15 PM</td>
+      <td>1:30, 3:00, 4:30 PM</td>
+      <td>1:45, 3:15, 4:45 PM</td>
+      <td>2:00, 3:30, 5:00 PM</td>
+    </tr>
+    <tr>
+      <td><strong>Snapchat</strong></td>
+      <td>7:00, 9:00, 11:00 PM</td>
+      <td>7:20, 9:20, 11:20 PM</td>
+      <td>7:40, 9:40, 11:40 PM</td>
+      <td>8:00, 10:00 PM, 12:00 AM</td>
+      <td>8:20, 10:20 PM, 12:20 AM</td>
+    </tr>
+  </table>
+
+  <div class="callout callout-gold">
+    <div class="callout-title">Spacing Note</div>
+    <p>On Instagram, TikTok, and Snapchat, the batches are spaced 15 to 20 minutes apart. On YouTube and Facebook, batches are 20 minutes apart. This prevents any platform from seeing multiple posts from related accounts at the same timestamp, which reduces the risk of algorithmic suppression or spam flags.</p>
+  </div>
+</div>
+
+<!-- SECTION 7: REMINDER AGENT -->
+<div class="page">
+  <div class="section-header">
+    <div class="section-num">7</div>
+    <div>
+      <div class="section-title">The Reminder Agent</div>
+      <div class="section-sub">5 rules that keep the human pipeline on schedule without manual chasing</div>
+    </div>
+  </div>
+
+  <div class="callout callout-blue">
+    <div class="callout-title">How It Works</div>
+    <p>n8n checks the Google Sheet every 30 minutes during working hours. It reads each row's current status and how long it has been sitting there. If any row exceeds a time threshold, it fires a Slack message automatically. No human needs to chase anyone. The system does it.</p>
+  </div>
+
+  <div class="rule-card rule-r1">
+    <div class="rule-header"><div class="rule-number">R1</div><div class="rule-title">Editor is behind on assigned video</div><div class="rule-trigger">Triggers: 4 hours in "Approved for Editing"</div></div>
+    <div class="rule-body">
+      Slack DM sent directly to the assigned editor. At 8 hours with no update, the Reminder Agent escalates to the Senior Reviewer channel.
+      <div class="slack-msg slack-bot" style="margin-top:12px;">
+        <div class="slack-header"><div class="slack-avatar">AW</div><div class="slack-name">AW Reminder Agent</div><span class="slack-app-badge">App</span><span class="slack-time">2:04 PM</span></div>
+        <div class="slack-text">⏰ <strong>Reminder, editor1</strong>: <em>Gary Vee Discipline Clip</em> was assigned 4 hours ago and is still pending. Please upload your edit as soon as possible. <a class="slack-link" href="#">Open Sheet</a></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="rule-card rule-r2">
+    <div class="rule-header"><div class="rule-number">R2</div><div class="rule-title">Content reviewer has not reviewed in time</div><div class="rule-trigger">Triggers: 2 hours in "Edited, Pending Review"</div></div>
+    <div class="rule-body">
+      Slack DM directly to the content reviewer with the video name, editor, and a direct link to the edited file.
+      <div class="slack-msg slack-bot" style="margin-top:12px;">
+        <div class="slack-header"><div class="slack-avatar">AW</div><div class="slack-name">AW Reminder Agent</div><span class="slack-app-badge">App</span><span class="slack-time">4:17 PM</span></div>
+        <div class="slack-text">⏰ <strong>Review needed</strong>: <em>Gary Vee Discipline Clip</em> has been waiting 2 hours. Editor: editor1. <a class="slack-link" href="#">Watch edited video</a> &nbsp;|&nbsp; <a class="slack-link" href="#">Open Sheet</a></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="rule-card rule-r3">
+    <div class="rule-header"><div class="rule-number">R3</div><div class="rule-title">Editor has not addressed a revision request</div><div class="rule-trigger">Triggers: 3 hours in "Changes Required"</div></div>
+    <div class="rule-body">Revision notes from the reviewer are pulled from the Sheet and included in the Slack message so the editor knows exactly what needs fixing without opening the Sheet.</div>
+  </div>
+
+  <div class="rule-card rule-r4">
+    <div class="rule-header"><div class="rule-number">R4</div><div class="rule-title">Daily standup summary sent every morning</div><div class="rule-trigger">Triggers: 9:00 AM daily to #team-standup</div></div>
+    <div class="rule-body">
+      Posted to #team-standup every morning showing each team member's current workload and total pipeline status.
+      <div class="slack-msg slack-bot" style="margin-top:12px;">
+        <div class="slack-header"><div class="slack-avatar">AW</div><div class="slack-name">AW Reminder Agent</div><span class="slack-app-badge">App</span><span class="slack-time">9:00 AM</span></div>
+        <div class="slack-text">📋 <strong>Daily Pipeline Summary, June 4</strong><br/><br/><strong>editor1:</strong> 2 in progress, 1 awaiting review<br/><strong>editor2:</strong> 3 in progress<br/><strong>reviewer:</strong> 2 waiting for review<br/><strong>Senior Reviewer:</strong> 3 raw videos pending<br/><br/>In pipeline: <strong>11 videos</strong> | Approved and posted today: <strong>3 videos</strong></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="rule-card rule-r5">
+    <div class="rule-header"><div class="rule-number">R5</div><div class="rule-title">SLA breach, escalation to Patrick and Vedant</div><div class="rule-trigger">Triggers: 12 hours stuck in any status</div></div>
+    <div class="rule-body" style="background:#F9FAFB;">If any video is stuck in any status for 12 or more hours during working hours, Patrick and Vedant both receive a direct Slack message. This is the final escalation. Something serious has gone wrong and needs human intervention immediately.</div>
+  </div>
+</div>
+
+<!-- SECTION 8: ALL 8 AGENTS -->
+<div class="page">
+  <div class="section-header">
+    <div class="section-num">8</div>
+    <div>
+      <div class="section-title">All 8 Agents</div>
+      <div class="section-sub">Complete registry of every AI agent in the system, what it does, and when it runs</div>
+    </div>
+  </div>
+
+  <div class="callout callout-purple">
+    <div class="callout-title">Agent Philosophy</div>
+    <p>Every agent has exactly one job. Agents do not overlap. When a video is approved, the agents fire in sequence: Caption, then Posting, then Analysis. Every Monday, Strategy fires. Every Sunday, Research fires. Every 3 days, Reporter fires. The CEO Agent reviews the full picture weekly and flags anything that needs a strategic decision.</p>
+  </div>
+
+  <div class="agent-grid mb-24">
+    <div class="agent-card">
+      <div class="agent-card-header" style="background:#F0FDF4;">
+        <div class="agent-number" style="color:var(--green);">Agent 01</div>
+        <div class="agent-name">Caption Agent</div>
+        <div class="agent-trigger">Trigger: Immediately on video approval</div>
+      </div>
+      <div class="agent-body">
+        <div class="agent-item">Analyses video content via Claude Vision</div>
+        <div class="agent-item">Writes 5 platform-specific captions (YouTube, Instagram, Facebook, TikTok, Snapchat)</div>
+        <div class="agent-item">Pulls trending hashtags via Zernio's search tools</div>
+        <div class="agent-item">Saves captions to the Google Sheet and triggers Posting Agent</div>
+      </div>
+      <div class="agent-model">Model: Claude Sonnet 4.6 | Runtime: ~30 seconds</div>
+    </div>
+
+    <div class="agent-card">
+      <div class="agent-card-header" style="background:var(--blue-lt);">
+        <div class="agent-number" style="color:var(--blue);">Agent 02</div>
+        <div class="agent-name">Posting Agent</div>
+        <div class="agent-trigger">Trigger: After captions are ready, posts in batches</div>
+      </div>
+      <div class="agent-body">
+        <div class="agent-item">Converts video to 1080x1920 vertical with blurred background</div>
+        <div class="agent-item">Posts to all 25 accounts in 5 batches throughout the day via Zernio</div>
+        <div class="agent-item">Rotates accounts within each batch to avoid spam detection</div>
+        <div class="agent-item">Logs every post to the Google Sheets Tracker tab automatically</div>
+      </div>
+      <div class="agent-model">Model: Haiku 4.5 (execution only) | Runtime: Throughout the day</div>
+    </div>
+
+    <div class="agent-card">
+      <div class="agent-card-header" style="background:var(--amber-lt);">
+        <div class="agent-number" style="color:var(--amber);">Agent 03</div>
+        <div class="agent-name">Analysis Agent</div>
+        <div class="agent-trigger">Trigger: 1 hour and 24 hours after each post</div>
+      </div>
+      <div class="agent-body">
+        <div class="agent-item">Fetches views, saves, shares, comments via Zernio for all platforms in one API call</div>
+        <div class="agent-item">Updates Views 1hr and Views 24hr columns in the Tracker</div>
+        <div class="agent-item">Calculates week average and flags any video at 2x or above</div>
+        <div class="agent-item">Sends HIGH PERFORMER alert to #high-performers channel instantly</div>
+      </div>
+      <div class="agent-model">Model: Haiku 4.5 | Runtime: 2 checks per posted video</div>
+    </div>
+
+    <div class="agent-card">
+      <div class="agent-card-header" style="background:#EDE9FE;">
+        <div class="agent-number" style="color:var(--purple);">Agent 04</div>
+        <div class="agent-name">Strategy Agent</div>
+        <div class="agent-trigger">Trigger: Every Monday at 9:00 AM</div>
+      </div>
+      <div class="agent-body">
+        <div class="agent-item">Reads all rows from the Tracker for the past 7 days</div>
+        <div class="agent-item">Reads the Sunday research brief and high-performer flags</div>
+        <div class="agent-item">Writes a 300-word brief: week numbers, what is working, what to stop, 3 tests for next week</div>
+        <div class="agent-item">Saves to Reports tab. Emails Patrick and Vedant automatically.</div>
+      </div>
+      <div class="agent-model">Model: Claude Sonnet 4.6 | Runtime: Every Monday 9AM</div>
+    </div>
+
+    <div class="agent-card">
+      <div class="agent-card-header" style="background:#FFF7ED;">
+        <div class="agent-number" style="color:#C2410C;">Agent 05</div>
+        <div class="agent-name">Research Agent</div>
+        <div class="agent-trigger">Trigger: Every Sunday at 8:00 AM</div>
+      </div>
+      <div class="agent-body">
+        <div class="agent-item">Scrapes top 5 performing accounts in 3 rotating niches on Instagram and TikTok</div>
+        <div class="agent-item">Identifies top 3 trending content formats and top 5 hooks from the week</div>
+        <div class="agent-item">Checks Google Trends and YouTube comments for rising audience topics</div>
+        <div class="agent-item">Saves research brief to Reports tab to feed the Monday Strategy Agent</div>
+      </div>
+      <div class="agent-model">Model: Claude Sonnet 4.6 | Runtime: Every Sunday 8AM</div>
+    </div>
+
+    <div class="agent-card">
+      <div class="agent-card-header" style="background:#F9FAFB;">
+        <div class="agent-number" style="color:var(--gray-600);">Agent 06</div>
+        <div class="agent-name">Reminder Agent</div>
+        <div class="agent-trigger">Trigger: Every 30 minutes during working hours</div>
+      </div>
+      <div class="agent-body">
+        <div class="agent-item">Monitors every row in the Google Sheet for time overruns</div>
+        <div class="agent-item">Fires 5 rule-based Slack messages: editor delay, review delay, revision delay, daily standup, 12hr escalation</div>
+        <div class="agent-item">Never lets a video sit unnoticed. Always knows who is behind and by how much.</div>
+        <div class="agent-item">No AI model needed. Pure n8n logic and Slack API calls.</div>
+      </div>
+      <div class="agent-model">Model: No AI model (n8n logic only) | Runtime: Every 30 min, 9AM to 10PM</div>
+    </div>
+
+    <div class="agent-card" style="border:2px solid var(--gold);">
+      <div class="agent-card-header" style="background:var(--navy);">
+        <div class="agent-number" style="color:var(--gold);">Agent 07 (NEW)</div>
+        <div class="agent-name" style="color:var(--white);">Reporter Agent</div>
+        <div class="agent-trigger" style="color:rgba(255,255,255,0.5);">Trigger: Every 3 days at 10:00 AM</div>
+      </div>
+      <div class="agent-body">
+        <div class="agent-item">Pulls the last 3 days of data from the Tracker sheet</div>
+        <div class="agent-item">Calculates total posts, total views, top 3 performing videos, and platform breakdown</div>
+        <div class="agent-item">Calculates progress toward the 25M views goal with percentage complete and projected completion date</div>
+        <div class="agent-item">Formats a clean, concise performance snapshot and sends it to David via both Slack (#reports) and email (david@ascensionwharf.com)</div>
+        <div class="agent-item">David uses this report to give feedback to Vedant and Patrick on strategy adjustments without needing to read the full Strategy Agent brief</div>
+      </div>
+      <div class="agent-model" style="background:#F0F9FF;">Model: Claude Haiku 4.5 (fast, data formatting) | Runtime: Every 3 days</div>
+    </div>
+
+    <div class="agent-card" style="border:2px solid #7C3AED;">
+      <div class="agent-card-header" style="background:#4C1D95;">
+        <div class="agent-number" style="color:#C4B5FD;">Agent 08 (NEW)</div>
+        <div class="agent-name" style="color:var(--white);">CEO Agent</div>
+        <div class="agent-trigger" style="color:rgba(255,255,255,0.5);">Trigger: Every Friday at 6:00 PM</div>
+      </div>
+      <div class="agent-body">
+        <div class="agent-item">Reads the full week's Tracker data, the Monday strategy brief, the Reporter outputs, and the high-performer log</div>
+        <div class="agent-item">Calculates whether the system is on track to hit 25M views in 60 days, ahead, or behind, and by how much</div>
+        <div class="agent-item">If behind pace: identifies which platform is underperforming, which content type is dragging, and outputs 1 strategic decision for the team to act on immediately</div>
+        <div class="agent-item">If on pace: confirms what is driving performance and recommends whether to double down or diversify</div>
+        <div class="agent-item">Sends a Friday evening executive brief to Patrick and Vedant directly. Short, direct, actionable. No fluff.</div>
+        <div class="agent-item">Acts as the AI Chief Content Officer: the one agent that looks at the business outcome, not just the content metrics</div>
+      </div>
+      <div class="agent-model" style="background:#F5F3FF;">Model: Claude Sonnet 4.6 | Runtime: Every Friday 6PM</div>
+    </div>
+  </div>
+
+  <h3>Agent Schedule at a Glance</h3>
+  <table>
+    <tr><th>Agent</th><th>Runs When</th><th>Output Goes To</th></tr>
+    <tr><td>Caption Agent</td><td>Immediately on approval</td><td>Captions saved to Sheet, triggers Posting Agent</td></tr>
+    <tr><td>Posting Agent</td><td>Throughout each day in 5 batches</td><td>72 posts across 25 accounts, logged in Tracker</td></tr>
+    <tr><td>Analysis Agent</td><td>1hr and 24hr after each post</td><td>Views updated in Tracker, high performers to #high-performers</td></tr>
+    <tr><td>Strategy Agent</td><td>Every Monday 9AM</td><td>Reports tab + email to Patrick and Vedant</td></tr>
+    <tr><td>Research Agent</td><td>Every Sunday 8AM</td><td>Reports tab, feeds Monday Strategy Agent</td></tr>
+    <tr><td>Reminder Agent</td><td>Every 30 min, 9AM to 10PM</td><td>Slack DMs and channel messages to team</td></tr>
+    <tr><td>Reporter Agent</td><td>Every 3 days, 10AM</td><td>#reports channel + email to David</td></tr>
+    <tr><td>CEO Agent</td><td>Every Friday 6PM</td><td>Executive brief directly to Patrick and Vedant</td></tr>
+  </table>
+</div>
+
+<!-- SECTION 9: TECH STACK -->
+<div class="page">
+  <div class="section-header">
+    <div class="section-num">9</div>
+    <div>
+      <div class="section-title">Technology Stack</div>
+      <div class="section-sub">Three core platforms. Each has one job. Nothing overlaps.</div>
+    </div>
+  </div>
+
+  <div class="stack-grid mb-32">
+    <div class="stack-card">
+      <div class="stack-card-header"><div class="stack-card-logo" style="color:var(--gold);">Anthropic</div><div class="stack-card-name">Claude API</div><div class="stack-card-role">The AI brain: captions, strategy, research, reporting</div></div>
+      <div class="stack-card-body">
+        <div class="stack-item">Generates 5 platform-specific captions per video in 30 seconds</div>
+        <div class="stack-item">Writes all 8 agent outputs: reports, strategy, research, CEO brief</div>
+        <div class="stack-item">Most trusted AI for multi-step instruction following</div>
+        <div class="stack-item">Model: Sonnet 4.6 for writing, Haiku 4.5 for data tasks</div>
+        <div class="stack-item">Prompt caching cuts repeated context costs by up to 90%</div>
+      </div>
+      <div class="stack-card-cost">Cost: ~$10 to $15/month at 3 videos/day</div>
+    </div>
+
+    <div class="stack-card">
+      <div class="stack-card-header"><div class="stack-card-logo" style="color:#E74C3C;">n8n</div><div class="stack-card-name">n8n</div><div class="stack-card-role">The orchestration layer: connects everything, schedules everything</div></div>
+      <div class="stack-card-body">
+        <div class="stack-item">Monitors Google Drive for new video uploads</div>
+        <div class="stack-item">Manages all 8 agent triggers and sequences</div>
+        <div class="stack-item">Sends all Slack notifications across all 5 Reminder Agent rules</div>
+        <div class="stack-item">Schedules all 5 posting batches at the correct times</div>
+        <div class="stack-item">Used by Meta, Microsoft, and Zendesk at enterprise scale</div>
+        <div class="stack-item">Self-hostable: no per-workflow fees, unlimited executions</div>
+      </div>
+      <div class="stack-card-cost">Cost: $5/month (self-hosted VPS) or $20/month cloud</div>
+    </div>
+
+    <div class="stack-card">
+      <div class="stack-card-header"><div class="stack-card-logo" style="color:var(--blue);">Zernio</div><div class="stack-card-name">Zernio</div><div class="stack-card-role">The posting layer: all 5 platforms in one API call</div></div>
+      <div class="stack-card-body">
+        <div class="stack-item">Posts to YouTube, Instagram, TikTok, Facebook, and Snapchat via single API</div>
+        <div class="stack-item">No TikTok Developer approval or Snapchat API review needed. Zernio already has platform approvals.</div>
+        <div class="stack-item">Pulls analytics from all platforms in one call, replaces 5 separate API integrations</div>
+        <div class="stack-item">Handles token refresh for all 25 accounts automatically</div>
+        <div class="stack-item">Unlimited posts. No per-post fees.</div>
+      </div>
+      <div class="stack-card-cost">Cost: $93/month for 25 accounts</div>
+    </div>
+
+    <div class="stack-card">
+      <div class="stack-card-header"><div class="stack-card-logo" style="color:var(--green);">Google</div><div class="stack-card-name">Google Workspace</div><div class="stack-card-role">Storage, tracking, team communication backbone</div></div>
+      <div class="stack-card-body">
+        <div class="stack-item">Google Drive: raw videos, edited videos, vertical converted videos</div>
+        <div class="stack-item">Google Sheets: master Tracker, Leaderboard, Reports tab for every post and metric</div>
+        <div class="stack-item">Gmail: 8 company email addresses for all team members</div>
+        <div class="stack-item">Already connected via Claude.ai native MCPs. No extra setup needed.</div>
+      </div>
+      <div class="stack-card-cost">Cost: $48/month for 8 users at $6 per user</div>
+    </div>
+  </div>
+</div>
+
+<!-- SECTION 10: COST BREAKDOWN -->
+<div class="page">
+  <div class="section-header">
+    <div class="section-num">10</div>
+    <div>
+      <div class="section-title">Full Cost Breakdown</div>
+      <div class="section-sub">Every single cost. Monthly total. Annual projection. Nothing hidden.</div>
+    </div>
+  </div>
+
+  <h3 style="margin-top:0;">Monthly Infrastructure Cost</h3>
+  <table class="mb-32">
+    <tr><th>Item</th><th>Provider</th><th>What It Covers</th><th>Monthly Cost</th></tr>
+    <tr><td><strong>Social posting and analytics</strong></td><td>Zernio</td><td>25 accounts (2 free + 8 at $6 + 15 at $3), 5 platforms, unlimited posts and analytics</td><td><strong>$93.00</strong></td></tr>
+    <tr><td><strong>Caption generation</strong></td><td>Anthropic API (Claude Sonnet 4.6)</td><td>3 videos/day x 30 days x ~$0.016 per caption generation</td><td><strong>$1.44</strong></td></tr>
+    <tr><td><strong>Strategy, research, reporter, CEO reports</strong></td><td>Anthropic API</td><td>4 strategy + 4 research + 10 reporter + 4 CEO = ~22 runs per month</td><td><strong>$4.00</strong></td></tr>
+    <tr><td><strong>Workflow orchestration and automation</strong></td><td>n8n (self-hosted VPS)</td><td>All 8 agent triggers, Reminder Agent, batch scheduling, Slack integration</td><td><strong>$5.00</strong></td></tr>
+    <tr><td><strong>Team Gmail accounts</strong></td><td>Google Workspace Business Starter</td><td>8 company email addresses at $6 per user per month</td><td><strong>$48.00</strong></td></tr>
+    <tr><td><strong>Team messaging</strong></td><td>Slack Pro</td><td>8 team members, full message history, unlimited integrations, all agent notifications</td><td><strong>$58.00</strong></td></tr>
+    <tr><td><strong>Claude Code subscription</strong></td><td>Anthropic (Vedant personal)</td><td>Claude Code Max 5x for Vedant's development and agent management work</td><td><strong>$100.00</strong></td></tr>
+    <tr><td><strong>Server uptime monitoring</strong></td><td>UptimeRobot</td><td>Monitors n8n server, alerts if it goes down, auto-restart notifications</td><td><strong>$0.00</strong></td></tr>
+    <tr><td><strong>Google Drive storage</strong></td><td>Google One</td><td>Additional storage if 3 videos per day exceeds the 15GB free tier over time</td><td><strong>$3.00</strong></td></tr>
+    <tr class="total-row"><td colspan="3"><strong>TOTAL MONTHLY COST</strong></td><td><strong>$312.44 / month</strong></td></tr>
+  </table>
+
+  <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:16px;margin-bottom:32px;">
+    <div style="border:1px solid var(--gray-200);border-radius:10px;padding:20px;text-align:center;">
+      <div style="font-size:24px;font-weight:800;color:var(--navy);">$312</div>
+      <div style="font-size:11px;text-transform:uppercase;letter-spacing:0.1em;color:var(--gray-400);margin-top:4px;">Per month total</div>
+    </div>
+    <div style="border:1px solid var(--gray-200);border-radius:10px;padding:20px;text-align:center;">
+      <div style="font-size:24px;font-weight:800;color:var(--navy);">$3,744</div>
+      <div style="font-size:11px;text-transform:uppercase;letter-spacing:0.1em;color:var(--gray-400);margin-top:4px;">Annual cost</div>
+    </div>
+    <div style="border:1px solid var(--gray-200);border-radius:10px;padding:20px;text-align:center;">
+      <div style="font-size:24px;font-weight:800;color:var(--green);">$0.0043</div>
+      <div style="font-size:11px;text-transform:uppercase;letter-spacing:0.1em;color:var(--gray-400);margin-top:4px;">Cost per post</div>
+    </div>
+    <div style="border:1px solid var(--gray-200);border-radius:10px;padding:20px;text-align:center;">
+      <div style="font-size:24px;font-weight:800;color:var(--navy);">2,160</div>
+      <div style="font-size:11px;text-transform:uppercase;letter-spacing:0.1em;color:var(--gray-400);margin-top:4px;">Posts per month</div>
+    </div>
+  </div>
+
+  <div class="callout callout-gold">
+    <div class="callout-title">Note on Claude Code Subscription</div>
+    <p>The $100/month Claude Code Max 5x subscription is for Vedant's use of Claude Code as the development and management tool for building and maintaining this system. The Claude API costs ($1.44 to $4/month) are separate pay-per-token charges for the agents running automated tasks. The API does not require a subscription, only an API key.</p>
+  </div>
+
+  <h3>Cost Note on Slack Pro</h3>
+  <p style="font-size:13px;color:var(--gray-600);">Slack Pro at $7.25 per user per month covers 8 team members for $58/month. This gives full message history (Slack Free only keeps 90 days), unlimited app integrations for the Reminder Agent, and proper workflow automation. Slack Free can work initially but message history loss after 90 days will make it hard to review older team communications.</p>
+</div>
+
+<!-- SECTION 11: SETUP TIMELINE -->
+<div class="page">
+  <div class="section-header">
+    <div class="section-num">11</div>
+    <div>
+      <div class="section-title">Setup Timeline</div>
+      <div class="section-sub">4-week plan from zero accounts to full live operation</div>
+    </div>
+  </div>
+
+  <div class="callout callout-gold">
+    <div class="callout-title">Total Time: 3 to 4 Weeks</div>
+    <p>Most of the time is account warmup. Social platforms will flag and ban new accounts that immediately post at high volume. Accounts need 2 to 3 weeks of normal organic activity before automation begins. The technical setup takes 1 to 2 days.</p>
+  </div>
+
+  <div class="timeline">
+    <div class="timeline-item">
+      <div class="timeline-dot" style="background:#7C3AED;">1</div>
+      <div class="timeline-week" style="color:#7C3AED;">Week 1</div>
+      <div class="timeline-title">Create and begin warming all 25 accounts</div>
+      <div class="timeline-desc">Create the 20 secondary accounts (4 per platform) plus the new Snapchat main account. Post 2 to 3 pieces of organic content manually on each account. Let them age. Connect Patrick's existing main accounts on YouTube, TikTok, and Facebook to the warmup schedule. Do not connect automation yet.</div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-dot" style="background:var(--blue);">2</div>
+      <div class="timeline-week" style="color:var(--blue);">Week 2</div>
+      <div class="timeline-title">Full technical setup: Zernio, n8n, Claude API, Google, Slack</div>
+      <div class="timeline-desc">Sign up for Zernio and connect all 25 accounts (1 to 2 hours). Get Anthropic API key (10 minutes). Set up n8n on a VPS or use cloud version (2 to 3 hours). Create Google Drive folder structure. Set up Google Sheets Tracker with all columns. Create 8 company Gmail accounts. Set up all Slack channels. Brief the team on roles. This entire technical setup takes approximately one full working day.</div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-dot" style="background:var(--amber);">3</div>
+      <div class="timeline-week" style="color:var(--amber);">Week 3</div>
+      <div class="timeline-title">Build and test all n8n workflows and Reminder Agent rules</div>
+      <div class="timeline-desc">Build all n8n workflows for the 8 agents, the batch posting schedule, and all 5 Reminder Agent rules. Test each one end-to-end with 3 real videos. Verify every Slack message fires correctly. Verify Zernio posts land on the right accounts at the right times. Check all 5 batch time slots are working. Fix any timing or integration issues before going live.</div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-dot" style="background:var(--green);">4</div>
+      <div class="timeline-week" style="color:var(--green);">Week 4 onwards</div>
+      <div class="timeline-title">Go live. Full operation begins. Monitor closely for 3 days.</div>
+      <div class="timeline-desc">Accounts are warmed. Workflows are tested. Team is briefed. Day 1 of full live operation: 3 videos uploaded, pipeline runs end-to-end, 72 posts go out in 5 batches across the day. Monitor the first 3 days closely. Check that no accounts get flagged. Verify analytics are returning from Zernio. Confirm the Reminder Agent is firing correctly. After Day 3 with no issues, the system runs on its own.</div>
+    </div>
+  </div>
+</div>
+
+<!-- SECTION 12: FAILURE SCENARIOS -->
+<div class="page">
+  <div class="section-header">
+    <div class="section-num">12</div>
+    <div>
+      <div class="section-title">Failure Scenarios</div>
+      <div class="section-sub">What could go wrong and exactly how the system responds every time</div>
+    </div>
+  </div>
+
+  <table class="mb-32">
+    <tr><th>Scenario</th><th>What Happens</th><th>System Response</th></tr>
+    <tr><td><strong>Zernio post fails (10% baseline rate)</strong></td><td>Platform rejects post or returns error</td><td>n8n auto-retries once after 10 minutes. If second attempt fails, logs as error in Sheet and sends Slack alert to Patrick.</td></tr>
+    <tr><td><strong>Claude API timeout on caption generation</strong></td><td>Caption generation takes too long or fails</td><td>n8n retries up to 3 times with 30-second delays. If all fail, Slack alert sent and video marked for manual caption entry.</td></tr>
+    <tr><td><strong>Account gets flagged by a platform</strong></td><td>Instagram or TikTok restricts an account</td><td>Zernio detects error and returns a flag. n8n removes that account from the batch rotation immediately and sends alert to #high-performers channel.</td></tr>
+    <tr><td><strong>Google Drive upload delayed or incomplete</strong></td><td>File not fully uploaded when n8n checks</td><td>n8n polls every 5 minutes. Waits for the file to be fully available before creating the Sheet row.</td></tr>
+    <tr><td><strong>n8n server goes down</strong></td><td>VPS crashes or restarts</td><td>UptimeRobot alerts Vedant immediately. n8n cloud version ($20/month) includes automatic restarts and zero maintenance.</td></tr>
+    <tr><td><strong>Zernio token expires for one account</strong></td><td>One of the 25 account tokens stops working</td><td>Zernio handles token refresh automatically. If it fails, Zernio sends an email alert with the specific account name that needs reconnecting.</td></tr>
+    <tr><td><strong>Full team pipeline behind</strong></td><td>Multiple videos stuck for hours</td><td>Reminder Agent Rule 5 escalates to Patrick and Vedant after 12 hours. The 9AM standup message shows the full backlog clearly every morning.</td></tr>
+    <tr><td><strong>Zernio service outage</strong></td><td>Posting API is down</td><td>n8n queues all pending posts and retries automatically when Zernio comes back online. Check status at Zernio's status page.</td></tr>
+    <tr><td><strong>25M views target off pace at day 30</strong></td><td>Mid-point check shows insufficient velocity</td><td>CEO Agent fires every Friday and will flag this by week 4 at the latest. Strategic decision is escalated to Patrick and Vedant before it becomes a missed target.</td></tr>
+  </table>
+
+  <div class="callout callout-green">
+    <div class="callout-title">The Golden Rule</div>
+    <p>Nothing in this system fails silently. Every failed post is logged in the Google Sheet. Every stuck pipeline triggers a Slack alert. Every missed target is caught by the CEO Agent before it becomes unfixable. Patrick and Vedant always know exactly what is happening. They just do not need to manually manage it.</p>
+  </div>
+
+  <hr />
+  <div style="text-align:center;padding:32px 0 16px;">
+    <div style="font-size:20px;font-weight:800;color:var(--navy);margin-bottom:8px;">Ascension Wharf</div>
+    <div style="font-size:13px;color:var(--gray-400);">vedant@ascensionwharf.com &nbsp; ascensionwharf.com</div>
+    <div style="font-size:11px;color:var(--gray-400);margin-top:16px;letter-spacing:0.08em;text-transform:uppercase;">Confidential, June 2026</div>
+  </div>
+</div>
+
+</body>
+</html>
